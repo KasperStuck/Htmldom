@@ -1,4 +1,4 @@
-<?php namespace kasperstuck\Htmldom;
+<?php namespace Yangqi\Htmldom;
 /**
  * Website: http://sourceforge.net/projects/simplehtmldom/
  * Additional projects that may be used: http://sourceforge.net/projects/debugobject/
@@ -177,7 +177,7 @@ class Htmldom {
         $args = func_get_args();
 
         // Status code 406 error fix: (https://github.com/yangqi/Htmldom/issues/15)
-        // Added http headers
+        // Added http header
         $opts = array( 'http'=>array( 'method'=>"GET", 'header'=>"Accept-language: en\r\n" . "User-Agent: Mozilla/5.0 (Windows; U; Windows NT 6.0; en-US; rv:1.9.1.6) Gecko/20091201 Firefox/3.5.6\r\n". "Cookie: foo=bar\r\n" ) );
         $context = stream_context_create($opts);
         $args[1] = FALSE;
