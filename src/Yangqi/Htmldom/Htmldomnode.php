@@ -1,4 +1,4 @@
-<?php namespace Yangqi\Htmldom;
+<?php namespace kasperstuck\Htmldom;
 
 /**
  * simple html dom node

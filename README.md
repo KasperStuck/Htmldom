@@ -22,7 +22,7 @@ Add the following line to the `require` section of `composer.json`:
 ```php
 'providers' => array(
     ...
-	'Yangqi\Htmldom\HtmldomServiceProvider',
+	'kasperstuck\Htmldom\HtmldomServiceProvider',
     ...
 ```
 2. Add alias to `config/app.php`.
@@ -30,7 +30,7 @@ Add the following line to the `require` section of `composer.json`:
 ```php
 'aliases' => array(	
     ...
-	'Htmldom' => 'Yangqi\Htmldom\Htmldom',
+	'Htmldom' => 'kasperstuck\Htmldom\Htmldom',
     ...
 ```
 
