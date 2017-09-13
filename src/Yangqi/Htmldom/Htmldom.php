@@ -43,27 +43,27 @@
  * All of the Defines for the classes below.
  * @author S.C. Chen <me578022@gmail.com>
  */
-define('HDOM_TYPE_ELEMENT', 1);
-define('HDOM_TYPE_COMMENT', 2);
-define('HDOM_TYPE_TEXT',	3);
-define('HDOM_TYPE_ENDTAG',  4);
-define('HDOM_TYPE_ROOT',	5);
-define('HDOM_TYPE_UNKNOWN', 6);
-define('HDOM_QUOTE_DOUBLE', 0);
-define('HDOM_QUOTE_SINGLE', 1);
-define('HDOM_QUOTE_NO',	 3);
-define('HDOM_INFO_BEGIN',   0);
-define('HDOM_INFO_END',	 1);
-define('HDOM_INFO_QUOTE',   2);
-define('HDOM_INFO_SPACE',   3);
-define('HDOM_INFO_TEXT',	4);
-define('HDOM_INFO_INNER',   5);
-define('HDOM_INFO_OUTER',   6);
-define('HDOM_INFO_ENDSPACE',7);
-define('DEFAULT_TARGET_CHARSET', 'UTF-8');
-define('DEFAULT_BR_TEXT', "\r\n");
-define('DEFAULT_SPAN_TEXT', " ");
-define('MAX_FILE_SIZE', 600000);
+define(__NAMESPACE__ . '\HDOM_TYPE_ELEMENT', 1);
+define(__NAMESPACE__ . '\HDOM_TYPE_COMMENT', 2);
+define(__NAMESPACE__ . '\HDOM_TYPE_TEXT',	3);
+define(__NAMESPACE__ . '\HDOM_TYPE_ENDTAG',  4);
+define(__NAMESPACE__ . '\HDOM_TYPE_ROOT',	5);
+define(__NAMESPACE__ . '\HDOM_TYPE_UNKNOWN', 6);
+define(__NAMESPACE__ . '\HDOM_QUOTE_DOUBLE', 0);
+define(__NAMESPACE__ . '\HDOM_QUOTE_SINGLE', 1);
+define(__NAMESPACE__ . '\HDOM_QUOTE_NO',	 3);
+define(__NAMESPACE__ . '\HDOM_INFO_BEGIN',   0);
+define(__NAMESPACE__ . '\HDOM_INFO_END',	 1);
+define(__NAMESPACE__ . '\HDOM_INFO_QUOTE',   2);
+define(__NAMESPACE__ . '\HDOM_INFO_SPACE',   3);
+define(__NAMESPACE__ . '\HDOM_INFO_TEXT',	4);
+define(__NAMESPACE__ . '\HDOM_INFO_INNER',   5);
+define(__NAMESPACE__ . '\HDOM_INFO_OUTER',   6);
+define(__NAMESPACE__ . '\HDOM_INFO_ENDSPACE',7);
+define(__NAMESPACE__ . '\DEFAULT_TARGET_CHARSET', 'UTF-8');
+define(__NAMESPACE__ . '\DEFAULT_BR_TEXT', "\r\n");
+define(__NAMESPACE__ . '\DEFAULT_SPAN_TEXT', " ");
+define(__NAMESPACE__ . '\MAX_FILE_SIZE', 600000);
 
 class Htmldom {
 
@@ -129,7 +129,7 @@ class Htmldom {
 		$this->_target_charset = $target_charset;
 	}
 
-	public function __destruct()
+    public function __destruct()
 	{
 		$this->clear();
 	}
@@ -174,8 +174,16 @@ class Htmldom {
 	// load html from file
 	public function load_file()
 	{
-		$args = func_get_args();
-		$this->load(call_user_func_array('file_get_contents', $args), true);
+        $args = func_get_args();
+
+        // Status code 406 error fix: (https://github.com/yangqi/Htmldom/issues/15)
+        // Added http headers
+        $opts = array( 'http'=>array( 'method'=>"GET", 'header'=>"Accept-language: en\r\n" . "User-Agent: Mozilla/5.0 (Windows; U; Windows NT 6.0; en-US; rv:1.9.1.6) Gecko/20091201 Firefox/3.5.6\r\n". "Cookie: foo=bar\r\n" ) );
+        $context = stream_context_create($opts);
+        $args[1] = FALSE;
+        $args[2] = $context;
+
+        $this->load(call_user_func_array('file_get_contents', $args), true);
 		// Throw an error if we can't properly load the dom.
 		if (($error=error_get_last())!==null) {
 			$this->clear();
