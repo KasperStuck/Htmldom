@@ -9,7 +9,7 @@
     },
     "autoload": {
         "psr-0": {
-            "kasperstuck\\Htmldom": "src/"
+            "Htmldom": "src/"
         }
     },
     "minimum-stability": "dev"
